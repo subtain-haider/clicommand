@@ -17,7 +17,6 @@ class StudentController extends Controller
     {
         $student = new Student();
         $students = $student->all();
-
         return view('student.index', compact('students'));
 
     }
@@ -40,18 +39,22 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $image = $request->file('image');
+        $temp_name = rand(). '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $temp_name);
 
         $data = array(
             'name' => $request->name,
             'father_name' => $request->father_name,
             'email' => $request->email,
             'password' => $request->password,
+            'image' => $temp_name,
         );
         $student = new Student();
 
         $student->create($data);
 
-        return redirect('student/create')->with('success', 'Student Added Successfully');
+        return redirect('student/index')->with('success', 'Student Added Successfully');
     }
 
     /**
@@ -73,7 +76,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        return view('student.edit', compact('student'));
     }
 
     /**
@@ -85,7 +88,23 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+
+        $image = $request->file('image');
+        $temp_name = rand(). '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $temp_name);
+
+        $data = array(
+            'name' => $request->name,
+            'father_name' => $request->father_name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'image' => $temp_name,
+        );
+        $modal = new Student();
+
+        $modal->whereId($student->id)->update($data);
+
+        return redirect('student')->with('success', 'Student Updated Successfully');
     }
 
     /**

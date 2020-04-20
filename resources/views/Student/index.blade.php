@@ -1,27 +1,36 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Document</title>
-</head>
-<body>
-<a href="{{ route('student.create') }}">Add New Student</a>
 
-<h1>Data of All Students</h1>
+@extends('student.layout')
 
-<?php
-//foreach ($data as $abc) {
-//    echo $abc->name. "<br>";
-//}
-//?>
+@section('main')
+    <div align="right">
+        <a href="{{ route('student.create') }}" class="btn btn-default">Add new student</a>
+    </div>
 
-@foreach($students as $student)
-<ul>
-    <li>{{ $student->name }}</li>
-    <li>{{ $student->father_name }}</li>
-    <li>{{ $student->cnic }}</li>
-    <li>{{ $student->email }}</li>
-</ul>
-    @endforeach
-</body>
-</html>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>Image</td>
+            <td>Name</td>
+            <td>Father Name</td>
+            <td>Email</td>
+            <td>Actions</td>
+        </tr>
+        @foreach($students as $student)
+        <tr>
+            <td><img class="image-thumbnail" width="50%" src="{{ URL::to('/') }}/images/{{ $student->image  }}" alt=""></td>
+            <td>{{ $student->name }}</td>
+            <td>{{ $student->father_name }}</td>
+            <td>{{ $student->email }}</td>
+            <td>
+                <a class="btn btn-warning" href="{{ route('student.edit', $student->id) }}">Edit</a>
+            </td>
+        </tr>
+        @endforeach
+    </table>
+
+
+
+
+@endsection
+
+
+
